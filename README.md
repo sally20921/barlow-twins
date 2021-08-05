@@ -1,3 +1,5 @@
+
+  
 # Barlow Twins: Self-Supervised Learning via Redundancy Reduction
 
 ## Introduction
@@ -11,11 +13,6 @@
 
 ![image](https://user-images.githubusercontent.com/38284936/128422997-d8d29703-7c4c-4755-a477-97e012e1e0fc.png)
 
-$Y^A$
-
-$$
-\Gamma(z) = \int_0^\infty t^{z-1}e^{-t}dt\,.
-$$
 
 ```
 pip install -r requirements.txt
