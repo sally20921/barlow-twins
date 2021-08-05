@@ -13,9 +13,6 @@
 
 $Y^A$
 
-```math
-Y^A
-```
 
 ```
 pip install -r requirements.txt
