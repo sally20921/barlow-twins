@@ -30,3 +30,28 @@ python evaluate.py --gpus=8 --batch_size 256
 ```
 python evaluate.py --gpus=8 --batch_size 256 --model_path /path/to/lightning_logs/model.ckpt
 ```
+
+## Implementation Details
+### Image augmentations
+* Each input image is transformed twice to produce the two distorted views.
+* random cropping, resizing to 224x224 (always applied)
+* horizontal flipping, color jittering, converting to grayscale, Gaussian blurring and solarization (applied randomly, with some probability)
+* same augmentation parameters as BYOL
+
+### Architecture
+* encoder: ResNet-50 (without the final classification layer, 2048 output units) followed by a projector network
+* projector network: three linear layers, each with 8192 output units
+* first two layers of the projector are followed by a batch normalization layer and rectified linear units
+* encoder $\rightarrow$ representation $\rightarrow$ projector $\rightarrow$ embeddings
+
+### Optimization
+* follow the optimization protocol described in BYOL
+* LARS optimizer
+* train for 100 epochs with a batch size of 2048
+* learning rate 0.2
+* bias 0.0048
+* learning rate warm-up period of 10 epochs 
+* cosine decay schedule
+* $\lambda = 5 \cdot 10^{-3}$
+* distributed across 32 V100 GPUs and takes about 124 hours 
+* BYOL with batch size 4096 takes 113 hours
